@@ -1,39 +1,63 @@
 import { useContext } from "react";
-import { Context } from "../context/SortingContext";
+import { SettingsContext } from "../context/SortingContext";
+import { Algo } from "../context/SortingContext.types";
+import NavButtons from "./NavButtons";
 
-const Navbar = () => {
-  const { settings, setSettings } = useContext(Context);
-  const handleArrayLen: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+type InputChangeHandler = React.ChangeEventHandler<HTMLInputElement>;
+
+const Nav = () => {
+  const { sort, settings, setSettings } = useContext(SettingsContext);
+
+  const onArrayChange: InputChangeHandler = (e) => {
     if (!setSettings) return;
-    setSettings((prev) => ({ ...prev, arrayLen: +e.target.value * 5 }));
+    setSettings((c) => ({ ...c, arrayLen: +e.target.value * 5 }));
   };
-  const handleArrayDelay: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+
+  const onDelayChange: InputChangeHandler = (e) => {
     if (!setSettings) return;
-    setSettings((prev) => ({ ...prev, delay: +e.target.value * 5 }));
+    setSettings((c) => ({ ...c, delay: +e.target.value }));
   };
+
+  const onAlgoChange = (type: Algo) => {
+    if (!setSettings) return;
+    setSettings((c) => ({ ...c, algoType: type }));
+  };
+
   return (
-    <div className="w-full bg-slate-300 p-2">
-      <div className="flex justify-center align-center">
-        <button className="mx-2 py-2 px-4 bg-green-500 hover:bg-green-700 rounded-lg font-bold text-white">
-          Sort
-        </button>
-        <select className="py-2 px-4 bg-green-500 rounded-lg ml-2 text-white border-3 border-green-300">
-          <option className="bg-slate-400">merge sort</option>
-          <option className="bg-slate-400">quick sort</option>
-        </select>
-      </div>
-      <div className="flex  justify-center items-center">
-        <div className="flex flex-col items-center justify-center pr-3">
-          <label className="p-2">size: {settings.arrayLen}</label>
-          <input type="range" onChange={handleArrayLen} />
+    // <nav className="row-span-3 sm:row-span-2 w-screen bg-[#06283D] text-[#DFF6FF] grid grid-rows-2 pb-4">
+    <nav className="flex bg-[#06283D] text-[#DFF6FF] py-2 lg:flex-row flex-col">
+      <NavButtons onAlgoChange={onAlgoChange} settings={settings} sort={sort} />
+      <div className="flex flex-col w-full justify-between">
+        <div className="flex w-full justify-between">
+          <label htmlFor="items_amount">
+            Array Length: {settings.arrayLen}
+          </label>
+          <input
+            type="range"
+            name="items_amount"
+            id="items_amount"
+            className="w-full max-w-2xl"
+            defaultValue={25}
+            min={1}
+            onChange={onArrayChange}
+          />
         </div>
-        <div className="flex flex-col items-center justify-center">
-          <label className="p-2">speed: {settings.delay}</label>
-          <input type="range" onChange={handleArrayDelay} />
+        <div className="flex w-full justify-between">
+          <label htmlFor="delay">Delay: {settings.delay}</label>
+          <input
+            type="range"
+            name="delay"
+            id="delay"
+            className="w-full max-w-2xl z-10"
+            min={1}
+            defaultValue={5}
+            onChange={onDelayChange}
+          />
         </div>
       </div>
-    </div>
+    </nav>
+    // </nav>
   );
 };
 
-export default Navbar;
+export default Nav;
