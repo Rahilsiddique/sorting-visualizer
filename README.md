@@ -21,7 +21,7 @@ _With the functionality of_ ⏳(**_Processing Speed Control_**) _and_ 📏(**_Ar
 ![Screenshot_20221111_235442](https://user-images.githubusercontent.com/75086395/202738743-438aa444-fefc-415e-bd43-84dbc6fcfd6e.png)
 ---
 
-## ⚙ How it works ?!
+
 
 ---
 
